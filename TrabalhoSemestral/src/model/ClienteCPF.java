@@ -1,11 +1,14 @@
 package model;
 
+import lib.Pilha;
+
 public class ClienteCPF
 {
 	public String cpf;
 	public String nome;
 	public String endereco;
 	public String celular;
+	public Pilha<Produto> carrinho;
 	
 	public ClienteCPF()
 	{
@@ -19,5 +22,6 @@ public class ClienteCPF
 		this.nome = nome;
 		this.endereco = endereco;
 		this.celular = celular;
+		carrinho = new Pilha<>();
 	}
 }

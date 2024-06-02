@@ -21,7 +21,7 @@ public class TipoController
 					JOptionPane.showInputDialog("Insira o c�digo"));
 			String nome = JOptionPane.showInputDialog("Insira o nome:");
 			String desc = JOptionPane.showInputDialog("Insira a descri��o");
-			w.write(Integer.toString(cod)); w.write(','); w.write(nome); w.write(','); w.write(desc);
+			w.write(Integer.toString(cod)); w.write(';'); w.write(nome); w.write(';'); w.write(desc);
 			w.newLine();		
 			ListaTipos<Produto> listaTipo = 
 			new ListaTipos<>(new TipoProduto(cod, nome, desc));

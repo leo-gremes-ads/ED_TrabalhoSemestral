@@ -25,8 +25,8 @@ public class ClienteController
 				String tel = JOptionPane.showInputDialog("Informe o celular:");
 				ClienteCPF cl = new ClienteCPF(cpf, nome, end, tel);
 				clientes.insert(cl);
-				w.write(cpf); w.write(','); w.write(nome); w.write(',');
-				w.write(end); w.write(','); w.write(tel); w.newLine();
+				w.write(cpf); w.write(';'); w.write(nome); w.write(';');
+				w.write(end); w.write(';'); w.write(tel); w.newLine();
 			}
 			w.close();
 		} catch (Exception e) {
@@ -47,8 +47,8 @@ public class ClienteController
 				String email = JOptionPane.showInputDialog("Informe o e-mail:");
 				ClienteCNPJ cl = new ClienteCNPJ(cnpj, nome, end, tel, email);
 				clientes.insert(cl);
-				w.write(cnpj); w.write(','); w.write(nome); w.write(',');
-				w.write(end); w.write(','); w.write(tel); w.write(',');
+				w.write(cnpj); w.write(';'); w.write(nome); w.write(';');
+				w.write(end); w.write(';'); w.write(tel); w.write(';');
 				w.write(email); w.newLine();
 			}
 			w.close();

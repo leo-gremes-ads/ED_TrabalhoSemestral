@@ -147,41 +147,9 @@ public class ProdutoController
 				if (encontrado) break;
 			}
 			if (!encontrado) JOptionPane.showMessageDialog(null, "Produto não encontrado");
-			else excluirDoCsv(id);
 			System.out.println("-----------------------------");
 		} catch (Exception e) {
 			System.err.println("Erro ao consultar produto por id");
-		}
-	}
-
-	private void excluirDoCsv(int id)
-	{
-		try {
-			BufferedReader r = new BufferedReader(new FileReader("Produtos.csv"));
-			BufferedWriter w = new BufferedWriter(new FileWriter("tmp.txt"));
-			String linha = r.readLine();
-			while (linha != null) {
-				w.write(linha); w.newLine();
-				linha = r.readLine();
-			}
-			r.close();
-			w.close();
-			BufferedReader r2 = new BufferedReader(new FileReader("tmp.txt"));
-			BufferedWriter w2 = new BufferedWriter(new FileWriter("Produtos.csv"));
-			linha = r2.readLine();
-			while (linha != null) {
-				String[] termos = linha.split(",");
-				if (Integer.parseInt(termos[0]) != id) {
-					w2.write(linha); w2.newLine();
-				}
-				linha = r2.readLine();
-			}
-			r2.close();
-			w2.close();
-			File del = new File("tmp.txt");
-			del.delete();
-		} catch (Exception e) {
-			System.err.println("Erro ao excluir produto do csv");
 		}
 	}
 
@@ -189,7 +157,6 @@ public class ProdutoController
 	{
 
 		try {
-			BufferedWriter w = new BufferedWriter(new FileWriter("Produtos.csv", true));
 			int id = Integer.parseInt(
 				JOptionPane.showInputDialog("Insira o id do produto:"));
 			String nome = JOptionPane.showInputDialog("Insira o nome do produto:");
@@ -200,15 +167,33 @@ public class ProdutoController
 				JOptionPane.showInputDialog("Insira a quantidade disponível: "));
 			TipoProduto tipo = tipos.get(indice).getTipo();
 			Produto p = new Produto(id, nome, desc, valor, qtd, tipo);
-			w.write(Integer.toString(id)); w.write(','); w.write(nome); w.write(',');
-			w.write(desc); w.write(','); w.write(Double.toString(valor)); w.write(',');
-			w.write(Integer.toString(qtd)); w.write(','); w.write(Integer.toString(tipo.codigo));
-			w.newLine();
-			w.close();
 			return p;
 		} catch (Exception e) {
 			System.err.println("Erro na criação de produto");
 			return null;
+		}
+	}
+
+	public void escreverProdutosNoCsv(Lista<ListaTipos<Produto>> tipos)
+	{
+		try {
+			BufferedWriter w = new BufferedWriter(new FileWriter("Produtos.csv"));
+			int tamanhoTipos = tipos.size();
+			int tamanhoLista;
+			for (int i = 0; i < tamanhoTipos; i++) {
+				ListaTipos<Produto> lista = tipos.get(i);
+				tamanhoLista = lista.size();
+				for (int j = 0; j < tamanhoLista; j++) {
+					Produto p = lista.get(j);
+					w.write(Integer.toString(p.id)); w.write(';'); w.write(p.nome); w.write(';');
+					w.write(p.descricao); w.write(';'); w.write(Double.toString(p.valor)); w.write(';');
+					w.write(Integer.toString(p.qtd)); w.write(';'); w.write(Integer.toString(p.tipo.codigo));
+					w.newLine();
+				}
+			}
+			w.close();
+		} catch (Exception e) {
+			System.err.println("Erro ao escrever produtos no csv");
 		}
 	}
 

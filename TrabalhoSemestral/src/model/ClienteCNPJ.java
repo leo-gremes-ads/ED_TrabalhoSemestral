@@ -1,5 +1,7 @@
 package model;
 
+import lib.Pilha;
+
 public class ClienteCNPJ
 {
 	public String cnpj;
@@ -7,6 +9,7 @@ public class ClienteCNPJ
 	public String endereco;
 	public String telefone;
 	public String email;
+	public Pilha<Produto> carrinho;
 	
 	public ClienteCNPJ()
 	{
@@ -21,5 +24,6 @@ public class ClienteCNPJ
 		this.endereco = endereco;
 		this.telefone = telefone;
 		this.email = email;
+		carrinho = new Pilha<>();
 	}
 }
