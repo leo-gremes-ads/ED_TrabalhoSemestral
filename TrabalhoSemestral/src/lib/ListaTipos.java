@@ -55,7 +55,7 @@ public class ListaTipos<T>
 	{
 		int tamanho = size();
 		if (posicao < 0 || posicao > tamanho)
-			throw new Exception("Posição inválida");
+			throw new Exception("Posiï¿½ï¿½o invï¿½lida");
 		if (posicao == 0)
 			addFirst(t);
 		else if (posicao == tamanho)

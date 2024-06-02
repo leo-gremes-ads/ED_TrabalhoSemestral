@@ -2,17 +2,17 @@ package model;
 
 public class ClienteCPF
 {
-	public int cpf;
+	public String cpf;
 	public String nome;
 	public String endereco;
-	public int celular;
+	public String celular;
 	
 	public ClienteCPF()
 	{
 		super();
 	}
 	
-	public ClienteCPF(int cpf, String nome, String endereco, int celular)
+	public ClienteCPF(String cpf, String nome, String endereco, String celular)
 	{
 		super();
 		this.cpf = cpf;

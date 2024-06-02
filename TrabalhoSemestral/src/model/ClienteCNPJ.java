@@ -2,10 +2,10 @@ package model;
 
 public class ClienteCNPJ
 {
-	public int cnpj;
+	public String cnpj;
 	public String nome;
 	public String endereco;
-	public int telefone;
+	public String telefone;
 	public String email;
 	
 	public ClienteCNPJ()
@@ -13,7 +13,7 @@ public class ClienteCNPJ
 		super();
 	}
 	
-	public ClienteCNPJ(int cnpj, String nome, String endereco, int telefone, String email)
+	public ClienteCNPJ(String cnpj, String nome, String endereco, String telefone, String email)
 	{
 		super();
 		this.cnpj = cnpj;
