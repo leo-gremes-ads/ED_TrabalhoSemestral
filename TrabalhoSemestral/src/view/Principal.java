@@ -28,6 +28,8 @@ public class Principal
 				menuClientes(cc, pf, pj);
 			else if (op == 3)
 				menuCarrinho(carc, pf, pj, tipos);
+			else if (op == 4)
+				menuCompras(csvc, pf, pj, carc, tipos);
 			else
 				break;
 		}
@@ -36,11 +38,12 @@ public class Principal
 
 	private static int menuPrincipal()
 	{
-		String[] opcs = {"Tipos", "Produtos", "Clientes", "Carrinho", "Sair"};
+		String[] opcs = {"Tipos", "Produtos", "Clientes", "Carrinho",
+		"Compras", "Sair"};
 		return JOptionPane.showOptionDialog(
 			null, "Selecione a op��o desejada", "Sistema",
 			JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
-			opcs, opcs[4]);
+			opcs, opcs[5]);
 	}
 
 	private static void menuProdutos(ProdutoController pc, Lista<ListaTipos<Produto>> tipos)
@@ -114,6 +117,24 @@ public class Principal
 				cc.consultaClientePorNumero(pf, pj);
 			else if (op == 4)
 				cc.excluiClientePorNumero(pf, pj);
+			else
+				break;
+		}
+	}
+
+	private static void menuCompras(CsvController csvc, Fila<ClienteCPF> pf, Fila<ClienteCNPJ> pj,
+		CarrinhoController carc, Lista<ListaTipos<Produto>> tipos)
+	{
+		String[] opcs = {"Listar Compras", "Consultar Compra", "Voltar"};
+		while (true) {
+			int op = JOptionPane.showOptionDialog(
+				null, "Selecione a op��o desejada", "Sistema",
+				JOptionPane.DEFAULT_OPTION, JOptionPane.INFORMATION_MESSAGE, null,
+				opcs, opcs[2]);
+			if (op == 0)
+				csvc.listarCompras(pf, pj);
+			else if (op == 1)
+				csvc.consultarCompra(tipos, pf, pj, carc);
 			else
 				break;
 		}

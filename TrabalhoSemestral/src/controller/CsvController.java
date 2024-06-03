@@ -5,6 +5,7 @@ import view.Principal;
 //import controller.*;
 import lib.*;
 import java.io.*;
+import javax.swing.JOptionPane;
 
 public class CsvController
 {
@@ -131,6 +132,82 @@ public class CsvController
 		} catch (Exception e) {
 			System.err.println("Erro ao ler carrinhos csv");
 		}
+	}
 
+	public void listarCompras(Fila<ClienteCPF> pf, Fila<ClienteCNPJ> pj)
+	{
+		try {
+			BufferedReader r = new BufferedReader(new FileReader("Compras.csv"));
+			String linha = r.readLine();
+			String nome;
+			int i = 1;
+			if (linha == null) {
+				System.out.println("Não há compras registradas:");
+				r.close();
+				return;
+			}
+			System.out.println("-----------------------");
+			while (linha != null) {
+				String[] termos = linha.split(";");
+				if (termos[0].length() == 11) {
+					nome = Principal.localizaClientePF(pf, termos[0]).nome;
+				} else {
+					nome = Principal.localizaClientePJ(pj, termos[0]).nome;
+				}
+				System.out.println(String.format("%3d", i++) + ": " +
+					String.format("%25s", nome) + " - " + 
+					String.format("%3d", ((termos.length - 2) / 2)) +
+					" itens - Total: R$ " + String.format("%7.2f", Double.parseDouble(termos[1])));
+				linha = r.readLine();
+			}
+			System.out.println("-----------------------");
+			r.close();
+		} catch (Exception e) {
+			System.err.println("Erro ao listar compras");
+		}
+	}
+
+	public void consultarCompra(Lista<ListaTipos<Produto>> tipos, 
+		Fila<ClienteCPF> pf, Fila<ClienteCNPJ> pj, CarrinhoController cc)
+	{
+		try {
+			int num = Integer.parseInt(
+				JOptionPane.showInputDialog("Informe o número da compra para consulta:"));
+			boolean encontrado = false;
+			String nome;
+			BufferedReader r = new BufferedReader(new FileReader("Compras.csv"));
+			String linha = r.readLine();
+			int i = 1;
+			while (linha != null && i <= num) {
+				if (i == num) {
+					String[] termos = linha.split(";");
+					if (termos[0].length() == 11) {
+						nome = Principal.localizaClientePF(pf, termos[0]).nome;
+					} else {
+						nome = Principal.localizaClientePJ(pj, termos[0]).nome;
+					}
+					System.out.println("Cliente: " + nome);
+					System.out.println(String.format("%3d", ((termos.length - 2) / 2)) +
+					" itens - Total: R$ " + String.format("%7.2f", Double.parseDouble(termos[1])));
+					int tamanho = termos.length;
+					int j = 2;
+					while (j < tamanho) {
+						Produto p = cc.localizarProduto(tipos, Integer.parseInt(termos[j++]));
+						System.out.println(String.format("%25s", p.nome) +
+							" - " + String.format("%3d", Integer.parseInt(termos[j])) +
+							" x R$ " + String.format("%7.2f", p.valor) + " = R$ " +
+							String.format("%10.2f", p.valor * Integer.parseInt(termos[j++])));
+					}
+					encontrado = true;
+				}
+				linha = r.readLine();
+				i++;
+			}
+			if (!encontrado)
+				JOptionPane.showMessageDialog(null, "Compra não encontrada");
+			r.close();
+		} catch (Exception e) {
+			System.err.println("Erro ao consultar compra");
+		}
 	}
 }
